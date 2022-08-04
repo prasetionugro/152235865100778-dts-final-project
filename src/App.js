@@ -1,23 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./containers/Login";
+import Register from "./containers/Register";
+import ProtectedComponents from "./components/ProtectedComponents";
+import Home from "./containers/Home";
+import Cuisine from "./containers/Cuisine";
+import SearchResult from "./containers/SearchResult";
+import Recipe from "./containers/Recipe";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="login"
+            element={
+              <ProtectedComponents loginOnly={false}>
+                <Login />
+              </ProtectedComponents>
+            }
+          />
+          <Route
+            path="register"
+            element={
+              <ProtectedComponents loginOnly={false}>
+                <Register />
+              </ProtectedComponents>
+            }
+          />
+          <Route path="/" element={<Home />} />
+          <Route path="/cuisine/:type" element={<Cuisine />} />
+          <Route path="/searched/:search" element={<SearchResult />} />
+          <Route
+            path="/recipe/:name"
+            element={
+              <ProtectedComponents>
+                <Recipe />
+              </ProtectedComponents>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
